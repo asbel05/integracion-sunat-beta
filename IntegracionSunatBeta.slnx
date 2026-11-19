@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/IntegracionSunatBeta.Api/IntegracionSunatBeta.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/IntegracionSunatBeta.Tests/IntegracionSunatBeta.Tests.csproj" />
+  </Folder>
+</Solution>
