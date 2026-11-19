@@ -1,0 +1,23 @@
+## .NET / Visual Studio
+bin/
+obj/
+*.user
+*.suo
+*.cache
+.vs/
+.vscode/
+TestResults/
+
+## Secretos y certificados locales
+appsettings.Development.json
+appsettings.Local.json
+*.pfx
+*.p12
+.env
+.env.*
+
+## Angular / Node
+node_modules/
+.angular/
+dist/
+npm-debug.log*
