@@ -1,4 +1,6 @@
+using IntegracionSunatBeta.Api.Application.Interfaces;
 using IntegracionSunatBeta.Api.Infrastructure.Persistence;
+using IntegracionSunatBeta.Api.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -19,6 +21,9 @@ if (string.IsNullOrWhiteSpace(connectionString))
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+builder.Services.AddScoped<IComprobanteRepository, ComprobanteRepository>();
 
 var app = builder.Build();
 
