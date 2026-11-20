@@ -33,7 +33,7 @@ namespace IntegracionSunatBeta.Api.Infrastructure.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id, ct);
         }
 
-        public async Task<int> ObtenerSiguienteCodigoPedidoAsync(CancellationToken ct = default)
+        public async Task<int> ObtenerSiguienteCodigoAsync(CancellationToken ct = default)
         {
             return await _context.Database
                 .SqlQueryRaw<int>("SELECT NEXT VALUE FOR dbo.SeqPedidoCodigo AS [Value]")
