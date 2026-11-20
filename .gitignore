@@ -2,17 +2,24 @@
 bin/
 obj/
 *.user
+*.userosscache
 *.suo
 *.cache
+*.tmp
+*.Backup.tmp
+*.sln*.docstates
 .vs/
 .vscode/
 TestResults/
+*.coverage
+*.coveragexml
 
 ## Secretos y certificados locales
 appsettings.Development.json
 appsettings.Local.json
 *.pfx
 *.p12
+*.key
 .env
 .env.*
 
@@ -20,4 +27,9 @@ appsettings.Local.json
 node_modules/
 .angular/
 dist/
+coverage/
 npm-debug.log*
+
+## Sistema operativo
+.DS_Store
+Thumbs.db
