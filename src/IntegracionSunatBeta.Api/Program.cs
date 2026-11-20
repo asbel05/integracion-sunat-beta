@@ -1,6 +1,9 @@
+using FluentValidation;
 using IntegracionSunatBeta.Api.Application.Interfaces;
+using IntegracionSunatBeta.Api.Application.Validators;
 using IntegracionSunatBeta.Api.Infrastructure.Persistence;
 using IntegracionSunatBeta.Api.Infrastructure.Repositories;
+using IntegracionSunatBeta.Api.Middleware;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -24,8 +27,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<IComprobanteRepository, ComprobanteRepository>();
+builder.Services.AddValidatorsFromAssemblyContaining<CrearPedidoRequestValidator>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
