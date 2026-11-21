@@ -35,9 +35,10 @@ namespace IntegracionSunatBeta.Api.Infrastructure.Repositories
 
         public async Task<int> ObtenerSiguienteCodigoAsync(CancellationToken ct = default)
         {
-            return await _context.Database
+            var resultado = await _context.Database
                 .SqlQueryRaw<int>("SELECT NEXT VALUE FOR dbo.SeqPedidoCodigo AS [Value]")
-                .SingleAsync(ct);
+                .ToListAsync(ct);
+            return resultado[0];
         }
 
         public async Task<int> ObtenerSiguienteCorrelativoAsync(string serie, CancellationToken ct = default)
@@ -48,9 +49,10 @@ namespace IntegracionSunatBeta.Api.Infrastructure.Repositories
                 "F001" => "SELECT NEXT VALUE FOR dbo.SeqComprobanteF001 AS [Value]",
                 _ => throw new ArgumentException($"Serie no soportada: {serie}", nameof(serie))
             };
-            return await _context.Database
+            var resultado = await _context.Database
                 .SqlQueryRaw<int>(sql)
-                .SingleAsync(ct);
+                .ToListAsync(ct);
+            return resultado[0];
         }
     }
 }
