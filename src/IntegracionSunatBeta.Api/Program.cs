@@ -1,5 +1,7 @@
 using FluentValidation;
 using IntegracionSunatBeta.Api.Application.Interfaces;
+using IntegracionSunatBeta.Api.Application.Mappers;
+using IntegracionSunatBeta.Api.Application.Services;
 using IntegracionSunatBeta.Api.Application.Validators;
 using IntegracionSunatBeta.Api.Infrastructure.Persistence;
 using IntegracionSunatBeta.Api.Infrastructure.Repositories;
@@ -27,6 +29,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<IComprobanteRepository, ComprobanteRepository>();
+builder.Services.AddSingleton<PedidoMapper>();
+builder.Services.AddSingleton<ComprobanteMapper>();
+builder.Services.AddScoped<IPedidoService, PedidoService>();
+builder.Services.AddScoped<IComprobanteService, ComprobanteService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CrearPedidoRequestValidator>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 

@@ -19,11 +19,13 @@
 
   <ItemGroup>
     <Folder Include="Application\DTOs\" />
-    <Folder Include="Application\Interfaces\" />
-    <Folder Include="Application\Services\" />
     <Folder Include="Application\Validators\" />
     <Folder Include="Infrastructure\Messaging\" />
     <Folder Include="Infrastructure\Sunat\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Application\Mappers\PedidoMapper.cs" />
   </ItemGroup>
 
 </Project>
