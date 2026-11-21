@@ -36,6 +36,20 @@ builder.Services.AddScoped<IComprobanteService, ComprobanteService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CrearPedidoRequestValidator>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        if (allowedOrigins.Length > 0)
+        {
+            policy.WithOrigins(allowedOrigins)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
+    });
+});
+
 var app = builder.Build();
 
 app.UseExceptionHandler();
@@ -46,6 +60,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("FrontendPolicy");
 app.UseAuthorization();
 app.MapControllers();
 
