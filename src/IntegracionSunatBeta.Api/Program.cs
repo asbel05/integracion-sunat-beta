@@ -5,6 +5,7 @@ using IntegracionSunatBeta.Api.Application.Services;
 using IntegracionSunatBeta.Api.Application.Validators;
 using IntegracionSunatBeta.Api.Infrastructure.Persistence;
 using IntegracionSunatBeta.Api.Infrastructure.Repositories;
+using IntegracionSunatBeta.Api.Infrastructure.Sunat;
 using IntegracionSunatBeta.Api.Middleware;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -35,6 +36,8 @@ builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IComprobanteService, ComprobanteService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CrearPedidoRequestValidator>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.Configure<SunatOptions>(
+    builder.Configuration.GetSection(SunatOptions.SectionName));
 
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 builder.Services.AddCors(options =>

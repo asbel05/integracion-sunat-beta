@@ -21,7 +21,6 @@
     <Folder Include="Application\DTOs\" />
     <Folder Include="Application\Validators\" />
     <Folder Include="Infrastructure\Messaging\" />
-    <Folder Include="Infrastructure\Sunat\" />
   </ItemGroup>
 
   <ItemGroup>
