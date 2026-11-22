@@ -38,6 +38,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<CrearPedidoRequestValidator
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.Configure<SunatOptions>(
     builder.Configuration.GetSection(SunatOptions.SectionName));
+builder.Services.AddSingleton<UblInvoiceXmlBuilder>();
+builder.Services.AddSingleton<SunatXmlSigner>();
 
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 builder.Services.AddCors(options =>
