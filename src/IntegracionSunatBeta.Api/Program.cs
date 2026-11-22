@@ -8,6 +8,8 @@ using IntegracionSunatBeta.Api.Infrastructure.Repositories;
 using IntegracionSunatBeta.Api.Infrastructure.Sunat;
 using IntegracionSunatBeta.Api.Middleware;
 using Microsoft.EntityFrameworkCore;
+using Polly.Timeout;
+using System.Net;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +42,22 @@ builder.Services.Configure<SunatOptions>(
     builder.Configuration.GetSection(SunatOptions.SectionName));
 builder.Services.AddSingleton<UblInvoiceXmlBuilder>();
 builder.Services.AddSingleton<SunatXmlSigner>();
+builder.Services.AddHttpClient<ISunatClient, SunatBetaSoapClient>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(30);
+})
+.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler { UseCookies = false })
+.AddStandardResilienceHandler(options =>
+{
+    options.Retry.MaxRetryAttempts = 3;
+    options.Retry.ShouldHandle = args => ValueTask.FromResult(
+        args.Outcome.Exception is HttpRequestException or TimeoutRejectedException ||
+        (args.Outcome.Result is HttpResponseMessage resp &&
+         resp.StatusCode is HttpStatusCode.RequestTimeout
+             or HttpStatusCode.BadGateway
+             or HttpStatusCode.ServiceUnavailable
+             or HttpStatusCode.GatewayTimeout));
+});
 
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 builder.Services.AddCors(options =>
