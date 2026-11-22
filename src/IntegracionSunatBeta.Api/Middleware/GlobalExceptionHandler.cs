@@ -42,6 +42,7 @@ namespace IntegracionSunatBeta.Api.Middleware
                         TipoErrorDominio.Validacion => (StatusCodes.Status400BadRequest, "Error de validación de negocio"),
                         TipoErrorDominio.NoEncontrado => (StatusCodes.Status404NotFound, "Recurso no encontrado"),
                         TipoErrorDominio.ConflictoEstado => (StatusCodes.Status409Conflict, "Conflicto de estado"),
+                        TipoErrorDominio.ServicioNoDisponible => (StatusCodes.Status503ServiceUnavailable, "Servicio temporalmente no disponible"),
                         _ => (StatusCodes.Status400BadRequest, "Error de dominio")
                     };
                     problemDetails = new ProblemDetails

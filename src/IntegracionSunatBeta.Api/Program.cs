@@ -1,8 +1,10 @@
+using Azure.Messaging.ServiceBus;
 using FluentValidation;
 using IntegracionSunatBeta.Api.Application.Interfaces;
 using IntegracionSunatBeta.Api.Application.Mappers;
 using IntegracionSunatBeta.Api.Application.Services;
 using IntegracionSunatBeta.Api.Application.Validators;
+using IntegracionSunatBeta.Api.Infrastructure.Messaging;
 using IntegracionSunatBeta.Api.Infrastructure.Persistence;
 using IntegracionSunatBeta.Api.Infrastructure.Repositories;
 using IntegracionSunatBeta.Api.Infrastructure.Sunat;
@@ -58,6 +60,18 @@ builder.Services.AddHttpClient<ISunatClient, SunatBetaSoapClient>(client =>
              or HttpStatusCode.ServiceUnavailable
              or HttpStatusCode.GatewayTimeout));
 });
+
+builder.Services.Configure<ServiceBusOptions>(
+    builder.Configuration.GetSection(ServiceBusOptions.SectionName));
+
+var serviceBusConnection = builder.Configuration["ServiceBus:ConnectionString"];
+if (string.IsNullOrWhiteSpace(serviceBusConnection))
+{
+    throw new InvalidOperationException("No se configuró 'ServiceBus:ConnectionString'.");
+}
+
+builder.Services.AddSingleton(_ => new ServiceBusClient(serviceBusConnection));
+builder.Services.AddSingleton<IComprobanteQueuePublisher, ServiceBusComprobantePublisher>();
 
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 builder.Services.AddCors(options =>

@@ -12,5 +12,6 @@ namespace IntegracionSunatBeta.Api.Application.Interfaces
         Task<Comprobante?> ObtenerPorIdConDetallesIntentosAsync(Guid id, CancellationToken ct = default);
         Task AgregarIntentoAsync(ComprobanteIntento intento, CancellationToken ct = default);
         Task GuardarCambiosAsync(CancellationToken ct = default);
+        Task<List<Comprobante>> ObtenerPorIdsAsync(IReadOnlyCollection<Guid> ids, CancellationToken ct = default);
     }
 }

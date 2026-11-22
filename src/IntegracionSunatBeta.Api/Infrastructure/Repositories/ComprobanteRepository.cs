@@ -54,5 +54,12 @@ namespace IntegracionSunatBeta.Api.Infrastructure.Repositories
                 .AsSplitQuery()
                 .FirstOrDefaultAsync(c => c.Id == id, ct);
         }
+
+        public async Task<List<Comprobante>> ObtenerPorIdsAsync(IReadOnlyCollection<Guid> ids, CancellationToken ct = default)
+        {
+            return await _context.Comprobantes
+                .Where(c => ids.Contains(c.Id))
+                .ToListAsync(ct);
+        }
     }
 }

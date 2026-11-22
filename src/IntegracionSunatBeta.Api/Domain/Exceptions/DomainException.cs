@@ -4,7 +4,8 @@ public enum TipoErrorDominio
 {
     Validacion = 1,
     NoEncontrado = 2,
-    ConflictoEstado = 3
+    ConflictoEstado = 3,
+    ServicioNoDisponible = 4
 }
 
 public class DomainException : Exception
