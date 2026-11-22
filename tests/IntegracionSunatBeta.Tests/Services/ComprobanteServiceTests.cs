@@ -1,9 +1,11 @@
 ﻿using IntegracionSunatBeta.Api.Application.Interfaces;
 using IntegracionSunatBeta.Api.Application.Mappers;
 using IntegracionSunatBeta.Api.Application.Services;
+using IntegracionSunatBeta.Api.Application.Validators;
 using IntegracionSunatBeta.Api.Domain.Entities;
 using IntegracionSunatBeta.Api.Domain.Enums;
 using IntegracionSunatBeta.Api.Domain.Exceptions;
+using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 
 namespace IntegracionSunatBeta.Tests.Services
@@ -11,11 +13,17 @@ namespace IntegracionSunatBeta.Tests.Services
     public class ComprobanteServiceTests
     {
         private readonly IComprobanteRepository _comprobanteRepository = Substitute.For<IComprobanteRepository>();
+        private readonly IComprobanteQueuePublisher _queuePublisher = Substitute.For<IComprobanteQueuePublisher>();
         private readonly ComprobanteService _sut;
 
         public ComprobanteServiceTests()
         {
-            _sut = new ComprobanteService(_comprobanteRepository, new ComprobanteMapper());
+            _sut = new ComprobanteService(
+                _comprobanteRepository,
+                new ComprobanteMapper(),
+                _queuePublisher,
+                new EnviarComprobantesRequestValidator(),
+                NullLogger<ComprobanteService>.Instance);
         }
 
         [Fact]

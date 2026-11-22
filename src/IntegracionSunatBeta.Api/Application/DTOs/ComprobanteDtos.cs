@@ -48,4 +48,11 @@ namespace IntegracionSunatBeta.Api.Application.DTOs
         DateTime ActualizadoUtc,
         IReadOnlyList<PedidoItemResponse> Detalles,
         IReadOnlyList<ComprobanteIntentoResponse> HistorialIntentos);
+
+    public record EnviarComprobantesRequest(List<Guid> ComprobanteIds);
+
+    public record EnvioEncoladoResponse(
+        int Encolados,
+        IReadOnlyList<Guid> ComprobanteIds,
+        string Estado);
 }
